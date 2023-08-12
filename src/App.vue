@@ -1,8 +1,13 @@
-<script setup></script>
+<script setup>
+import { useUserStore } from '@/stores/modules/user'
+
+const userStore = useUserStore()
+</script>
 
 <template>
-  <div>我是APP</div>
-  <el-button type="danger">sss</el-button>
+  <div>{{ userStore.token }}</div>
+  <el-button @click="userStore.setToken('asd')">login</el-button>
+  <el-button @click="userStore.removeToken()">logout</el-button>
 </template>
 
 <style scoped></style>
