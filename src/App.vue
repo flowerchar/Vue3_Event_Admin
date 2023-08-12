@@ -1,13 +1,7 @@
-<script setup>
-import { useUserStore } from '@/stores/modules/user'
-
-const userStore = useUserStore()
-</script>
+<script setup></script>
 
 <template>
-  <div>{{ userStore.token }}</div>
-  <el-button @click="userStore.setToken('asd')">login</el-button>
-  <el-button @click="userStore.removeToken()">logout</el-button>
+  <router-view></router-view>
 </template>
 
 <style scoped></style>
