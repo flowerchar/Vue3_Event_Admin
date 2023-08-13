@@ -16,6 +16,20 @@ const rules = {
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
     { pattern: /^\S{6,15}$/, message: '密码长度必须在6-15位' }
+  ],
+  repassword: [
+    { required: true, message: '请输入密码', trigger: 'blur' },
+    { pattern: /^\S{6,15}$/, message: '密码长度必须在6-15位' },
+    {
+      validator: (rule, value, callback) => {
+        if (value === formModel.value.password) {
+          callback()
+        } else {
+          callback(new Error('两次输入的密码不一致'))
+        }
+      },
+      trigger: 'blur'
+    }
   ]
 }
 </script>
@@ -50,8 +64,9 @@ const rules = {
             type="password"
           ></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="repassword">
           <el-input
+            v-model="formModel.repassword"
             :prefix-icon="Lock"
             placeholder="请输入再次密码"
             type="password"
