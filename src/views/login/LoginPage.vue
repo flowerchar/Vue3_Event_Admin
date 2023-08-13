@@ -3,21 +3,48 @@ import { Lock, User } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 
 const isRegister = ref(true)
+const formModel = ref({
+  username: '',
+  password: '',
+  repassword: ''
+})
+const rules = {
+  username: [
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 5, max: 10, message: '用户名长度在5-10位', trigger: 'blur' }
+  ],
+  password: [
+    { required: true, message: '请输入密码', trigger: 'blur' },
+    { pattern: /^\S{6,15}$/, message: '密码长度必须在6-15位' }
+  ]
+}
 </script>
 
 <template>
   <el-row class="login-page">
     <el-col :span="12" class="bg"></el-col>
     <el-col :offset="3" :span="6" class="form">
-      <el-form v-if="isRegister" ref="form" autocomplete="off" size="large">
+      <el-form
+        v-if="isRegister"
+        ref="form"
+        :model="formModel"
+        :rules="rules"
+        autocomplete="off"
+        size="large"
+      >
         <el-form-item>
           <h1>注册</h1>
         </el-form-item>
-        <el-form-item>
-          <el-input :prefix-icon="User" placeholder="请输入用户名"></el-input>
-        </el-form-item>
-        <el-form-item>
+        <el-form-item prop="username">
           <el-input
+            v-model="formModel.username"
+            :prefix-icon="User"
+            placeholder="请输入用户名"
+          ></el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input
+            v-model="formModel.password"
             :prefix-icon="Lock"
             placeholder="请输入密码"
             type="password"
