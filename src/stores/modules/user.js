@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useUserStore = defineStore(
-  'big-user',
+  'big-user1',
   () => {
     const token = ref('')
     const setToken = (newToken) => {
