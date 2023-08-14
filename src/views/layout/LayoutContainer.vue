@@ -10,6 +10,29 @@ import {
   UserFilled
 } from '@element-plus/icons-vue'
 import avatar from '@/assets/default.png'
+import { useUserStore } from '@/stores'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const userStore = useUserStore()
+onMounted(() => {
+  userStore.getUser()
+})
+const handleCommand = async (key) => {
+  if (key === 'logout') {
+    await ElMessageBox.confirm('你确定要退出登陆吗', '温馨提示', {
+      type: 'warning',
+      cancelButtonText: '取消',
+      confirmButtonText: '确认'
+    })
+    userStore.removeToken()
+    userStore.setUser({})
+    router.push('/login')
+  } else {
+    router.push(`/user/${key}`)
+  }
+}
 </script>
 
 <template>
@@ -65,10 +88,14 @@ import avatar from '@/assets/default.png'
     </el-aside>
     <el-container>
       <el-header>
-        <div>黑马程序员：<strong>小帅鹏</strong></div>
-        <el-dropdown placement="bottom-end">
+        <div>
+          南审程序员：<strong>{{
+            userStore.user.nickname || userStore.user.username
+          }}</strong>
+        </div>
+        <el-dropdown placement="bottom-end" @command="handleCommand">
           <span class="el-dropdown__box">
-            <el-avatar :src="avatar" />
+            <el-avatar :src="userStore.user.user_pic || avatar" />
             <el-icon><CaretBottom /></el-icon>
           </span>
           <template #dropdown>
