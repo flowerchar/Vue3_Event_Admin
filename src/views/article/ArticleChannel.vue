@@ -1,7 +1,11 @@
-<script lang="ts" setup></script>
-
 <template>
-  <div>文章频道</div>
+  <page-container title="文章分类">
+    <template #extra>
+      <el-button>添加分类</el-button>
+    </template>
+    按时大大
+  </page-container>
 </template>
-
-<style lang="scss" scoped></style>
+<script setup>
+import PageContainer from '@/components/PageContainer.vue'
+</script>
