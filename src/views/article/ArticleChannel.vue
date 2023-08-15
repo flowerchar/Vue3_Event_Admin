@@ -24,6 +24,10 @@ const onAddChannel = () => {
 const onDeleteChannel = (row, $index) => {
   console.log(row, $index)
 }
+const onSuccess = () => {
+  // console.log('success')
+  getChannelList()
+}
 getChannelList()
 </script>
 
@@ -57,6 +61,6 @@ getChannelList()
       </template>
     </el-table>
 
-    <channel-edit ref="dialog"></channel-edit>
+    <channel-edit ref="dialog" @success="onSuccess"></channel-edit>
   </page-container>
 </template>
