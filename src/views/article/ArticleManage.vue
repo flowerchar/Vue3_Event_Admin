@@ -21,6 +21,7 @@ const getArticleList = async () => {
   total.value = res.data.total
   loading.value = false
 }
+const visibleDrawer = ref(false)
 onMounted(() => {
   getArticleList()
 })
@@ -50,13 +51,16 @@ const onReset = () => {
   params.value.state = ''
   getArticleList()
 }
+const onAddArticle = () => {
+  visibleDrawer.value = true
+}
 </script>
 
 <template>
   <!--  <div>文章管理</div>-->
   <page-container title="文章管理">
     <template #extra>
-      <el-button>添加文章</el-button>
+      <el-button type="primary" @click="onAddArticle">添加文章</el-button>
     </template>
 
     <el-form inline>
@@ -119,6 +123,10 @@ const onReset = () => {
       @size-change="onSizeChange"
       @current-change="onCurrentChange"
     />
+
+    <el-drawer v-model="visibleDrawer" title="TITLE">
+      <span>Hello!</span>
+    </el-drawer>
   </page-container>
 </template>
 
