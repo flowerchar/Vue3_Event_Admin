@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { Delete, Edit } from '@element-plus/icons-vue'
 import ChannelSelect from './components/ChannelSelect.vue'
+import { artGetListService } from '@/api/article.js'
+import { formatTime } from '@/utils/format.js'
 
 const params = ref({
   pageNum: 1,
@@ -9,22 +11,16 @@ const params = ref({
   cate_id: '',
   state: ''
 })
-const articleList = ref([
-  {
-    id: 5961,
-    title: '新的文章啊',
-    pub_date: '2022-07-10 14:53:52.604',
-    state: '已发布',
-    cate_name: '体育'
-  },
-  {
-    id: 5962,
-    title: '新的文章啊',
-    pub_date: '2022-07-10 14:54:30.904',
-    state: '草稿',
-    cate_name: '体育'
-  }
-])
+const total = ref(0)
+const articleList = ref([])
+const getArticleList = async () => {
+  const res = await artGetListService(params.value)
+  articleList.value = res.data.data
+  total.value = res.data.total
+}
+onMounted(() => {
+  getArticleList()
+})
 const onEditArticle = (row) => {
   console.log(row)
 }
@@ -63,7 +59,11 @@ const onDeleteArticle = (row) => {
         </template>
       </el-table-column>
       <el-table-column label="分类" prop="cate_name"></el-table-column>
-      <el-table-column label="发表时间" prop="pub_date"></el-table-column>
+      <el-table-column label="发表时间" prop="pub_date">
+        <template #default="{ row }">
+          {{ formatTime(row.pub_date) }}
+        </template>
+      </el-table-column>
       <el-table-column label="状态" prop="state"></el-table-column>
       <el-table-column label="操作">
         <template #default="{ row }">

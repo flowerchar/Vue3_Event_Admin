@@ -12,3 +12,7 @@ export const artDelChannelService = (id) =>
 // 1.body->data
 // 2.path-string
 // 3.query->params
+export const artGetListService = (params) =>
+  request.get('/my/article/list', {
+    params
+  })
