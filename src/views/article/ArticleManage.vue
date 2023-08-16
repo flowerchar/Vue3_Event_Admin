@@ -5,6 +5,7 @@ import ChannelSelect from './components/ChannelSelect.vue'
 import { artGetListService } from '@/api/article.js'
 import { formatTime } from '@/utils/format.js'
 
+const loading = ref(false)
 const params = ref({
   pagenum: 1,
   pagesize: 5,
@@ -14,9 +15,11 @@ const params = ref({
 const total = ref(0)
 const articleList = ref([])
 const getArticleList = async () => {
+  loading.value = true
   const res = await artGetListService(params.value)
   articleList.value = res.data.data
   total.value = res.data.total
+  loading.value = false
 }
 onMounted(() => {
   getArticleList()
@@ -62,7 +65,7 @@ const onCurrentChange = (page) => {
       </el-form-item>
     </el-form>
 
-    <el-table :data="articleList">
+    <el-table v-loading="loading" :data="articleList">
       <el-table-column label="文章标题" prop="title">
         <template #default="{ row }">
           <el-link :underline="false" type="primary">{{ row.title }}</el-link>
