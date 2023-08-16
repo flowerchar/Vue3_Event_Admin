@@ -4,6 +4,7 @@ import { Delete, Edit } from '@element-plus/icons-vue'
 import ChannelSelect from './components/ChannelSelect.vue'
 import { artGetListService } from '@/api/article.js'
 import { formatTime } from '@/utils/format.js'
+import ArticleEdit from './components/ArticleEdit.vue'
 
 const loading = ref(false)
 const params = ref({
@@ -12,6 +13,7 @@ const params = ref({
   cate_id: '',
   state: ''
 })
+const articleEditRef = ref()
 const total = ref(0)
 const articleList = ref([])
 const getArticleList = async () => {
@@ -21,12 +23,12 @@ const getArticleList = async () => {
   total.value = res.data.total
   loading.value = false
 }
-const visibleDrawer = ref(false)
+// const visibleDrawer = ref(false)
 onMounted(() => {
   getArticleList()
 })
 const onEditArticle = (row) => {
-  console.log(row)
+  articleEditRef.value.open(row)
 }
 const onDeleteArticle = (row) => {
   console.log(row)
@@ -52,7 +54,7 @@ const onReset = () => {
   getArticleList()
 }
 const onAddArticle = () => {
-  visibleDrawer.value = true
+  articleEditRef.value.open({})
 }
 </script>
 
@@ -124,9 +126,7 @@ const onAddArticle = () => {
       @current-change="onCurrentChange"
     />
 
-    <el-drawer v-model="visibleDrawer" title="TITLE">
-      <span>Hello!</span>
-    </el-drawer>
+    <article-edit ref="articleEditRef"></article-edit>
   </page-container>
 </template>
 
