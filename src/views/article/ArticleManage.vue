@@ -1,7 +1,14 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Delete, Edit } from '@element-plus/icons-vue'
+import ChannelSelect from './components/ChannelSelect.vue'
 
+const params = ref({
+  pageNum: 1,
+  pageSize: 5,
+  cate_id: '',
+  state: ''
+})
 const articleList = ref([
   {
     id: 5961,
@@ -35,13 +42,10 @@ const onDeleteArticle = (row) => {
 
     <el-form inline>
       <el-form-item label="文章分类:">
-        <el-select>
-          <el-option label="新闻" value="110"></el-option>
-          <el-option label="体育" value="137"></el-option>
-        </el-select>
+        <channel-select v-model="params.cateId"></channel-select>
       </el-form-item>
       <el-form-item label="发布状态:">
-        <el-select>
+        <el-select v-model="params.state">
           <el-option label="已发布" value="已发布"></el-option>
           <el-option label="草稿" value="草稿"></el-option>
         </el-select>
