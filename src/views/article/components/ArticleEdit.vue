@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import ChannelSelect from './ChannelSelect.vue'
+import { Plus } from '@element-plus/icons-vue'
 
 const visibleDrawer = ref(false)
 const open = (row) => {
@@ -13,6 +14,11 @@ const open = (row) => {
     console.log('add')
   }
 }
+const onSelectFile = (uploadFile) => {
+  imgUrl.value = URL.createObjectURL(uploadFile.raw)
+  formModel.value.cover_img = uploadFile.raw
+}
+const imgUrl = ref('')
 const defaultForm = {
   title: '',
   cate_id: '',
@@ -46,7 +52,19 @@ defineExpose({
           width="100%"
         ></channel-select>
       </el-form-item>
-      <el-form-item label="文章封面" prop="cover_img"> 文件上传</el-form-item>
+      <el-form-item label="文章封面" prop="cover_img">
+        <el-upload
+          :auto-upload="false"
+          :on-change="onSelectFile"
+          :show-file-list="false"
+          class="avatar-uploader"
+        >
+          <img v-if="imgUrl" :src="imgUrl" class="avatar" />
+          <el-icon v-else class="avatar-uploader-icon">
+            <Plus />
+          </el-icon>
+        </el-upload>
+      </el-form-item>
       <el-form-item label="文章内容" prop="content">
         <div class="editor">富文本编辑器</div>
       </el-form-item>
@@ -58,4 +76,32 @@ defineExpose({
   </el-drawer>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.avatar-uploader {
+  :deep() {
+    .avatar {
+      width: 178px;
+      height: 178px;
+      display: block;
+    }
+    .el-upload {
+      border: 1px dashed var(--el-border-color);
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: var(--el-transition-duration-fast);
+    }
+    .el-upload:hover {
+      border-color: var(--el-color-primary);
+    }
+    .el-icon.avatar-uploader-icon {
+      font-size: 28px;
+      color: #8c939d;
+      width: 178px;
+      height: 178px;
+      text-align: center;
+    }
+  }
+}
+</style>
