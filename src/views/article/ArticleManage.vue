@@ -6,8 +6,8 @@ import { artGetListService } from '@/api/article.js'
 import { formatTime } from '@/utils/format.js'
 
 const params = ref({
-  pageNum: 1,
-  pageSize: 5,
+  pagenum: 1,
+  pagesize: 5,
   cate_id: '',
   state: ''
 })
@@ -27,6 +27,16 @@ const onEditArticle = (row) => {
 const onDeleteArticle = (row) => {
   console.log(row)
 }
+
+const onSizeChange = (size) => {
+  params.value.pagenum = 1
+  params.value.pagesize = size
+  getArticleList()
+}
+const onCurrentChange = (page) => {
+  params.value.pagesize = page
+  getArticleList()
+}
 </script>
 
 <template>
@@ -38,7 +48,7 @@ const onDeleteArticle = (row) => {
 
     <el-form inline>
       <el-form-item label="文章分类:">
-        <channel-select v-model="params.cateId"></channel-select>
+        <channel-select v-model="params.cate_id"></channel-select>
       </el-form-item>
       <el-form-item label="发布状态:">
         <el-select v-model="params.state">
@@ -84,6 +94,18 @@ const onDeleteArticle = (row) => {
         </template>
       </el-table-column>
     </el-table>
+
+    <el-pagination
+      v-model:current-page="params.pagenum"
+      v-model:page-size="params.pagesize"
+      :page-sizes="[2, 3, 4, 5, 10]"
+      :total="total"
+      background
+      layout="jumper, total, sizes, prev, pager, next"
+      style="margin-top: 20px; justify-content: flex-end"
+      @size-change="onSizeChange"
+      @current-change="onCurrentChange"
+    />
   </page-container>
 </template>
 
