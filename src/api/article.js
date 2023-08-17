@@ -9,12 +9,19 @@ export const artDelChannelService = (id) =>
     params: { id }
   })
 
-// 1.body->data
-// 2.path-string
-// 3.query->params
+// 1.body->data post  put
+// 2.path-string get
+// 3.query->params get delete
 export const artGetListService = (params) =>
   request.get('/my/article/list', {
     params
   })
 
 export const artPublishService = (data) => request.post('/my/article/add', data)
+
+export const artGetDetailService = (id) =>
+  request.get('/my/article/info', {
+    params: { id }
+  })
+
+export const artEditService = (data) => request.get('/my/article/info', data)
