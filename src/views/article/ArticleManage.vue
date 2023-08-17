@@ -56,6 +56,14 @@ const onReset = () => {
 const onAddArticle = () => {
   articleEditRef.value.open({})
 }
+
+const onSuccess = (type) => {
+  if (type === 'add') {
+    const lastPage = Math.ceil((total.value + 1) / params.value.pagesize)
+    params.value.pagenum = lastPage
+  }
+  getArticleList()
+}
 </script>
 
 <template>
@@ -126,7 +134,7 @@ const onAddArticle = () => {
       @current-change="onCurrentChange"
     />
 
-    <article-edit ref="articleEditRef"></article-edit>
+    <article-edit ref="articleEditRef" @success="onSuccess"></article-edit>
   </page-container>
 </template>
 
